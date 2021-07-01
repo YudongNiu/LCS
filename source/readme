@@ -1,0 +1,23 @@
+Compile:	g++ -O3 -std=c++11 main.cpp -o LAM
+
+Running:	./LAM -f graph_name -n VNum -l lambda -e epsilon -p if_prop -s label_scoring_func
+			Meaning of parameters:
+				graph_name	the name of the network;
+				VNum		the number of nodes in the network;
+				lambda		the hyperparameter used in LAM framework, set to 0.4 by default;
+				epsilon		the error tolerance for computing PPR, usually approximately set to (0.1/VNum);
+				if_prop		whether a label propogation preprocessing is executed before our two-stage algorithm, 
+							this procedure is helpful when the labels are very sparse. 
+							When if_prop==0, this procedure is shutted down; when if_prop==1, the procedure will be executed.
+							We by default set if_prop=0 for sythetic generated labels on networks sbm, amazon, dblp, youtube, livejournal and orkut; 
+							and set if_prop=1 for facebook dataset.
+
+				label_scoring_func	Choosing the \rho(H,L_q). If label_scoring_func==0, \rho_{2}(H,L_q) is chosen; if label_scoring_func==1, \rho_{1}(H,L_q) is chosen.
+
+			e.g.  ./LAM -f amazon -n 334863 -l 0.4 -e 0.0000003 -p 0 -s 0
+
+Datasets:	LAM takes 3 files as input for one network and these data files should be within ./datasets directory.
+
+			graph_name.edges is the edge list of the network. Note that the node index should start from 0.
+			graph_name.feat contains the labels for each node. The i-th row of graph_name.feat records the labels for node i.
+			graph_name.query contains the queries to be executed. Each query occupies two rows. The first row is the seed node, the second row is the query labels.
