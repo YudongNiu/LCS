@@ -16,11 +16,9 @@ class My_model(torch.nn.Module):
         return output
 
 
-def criterion(output_, y):  # output: 10000 * 2 soft logits
-    # print(output[0])
+def criterion(output_, y):
     num = output_.size(0)
-    output = F.gumbel_softmax(output_, tau=1, hard=True) # output: 10000 * 2 one-hot [1,0] [0,1]
-    # print(output[0])
+    output = F.gumbel_softmax(output_, tau=1, hard=True)
     all_res = []
     for i in range(num):
         y1 = torch.Tensor([y[i] ** 2, -y[i] ** 2])
@@ -58,7 +56,7 @@ def full_gd(model, optimizer, X_train, y_train, n_epochs=2000):
 # torch.manual_seed(2022)
 x = []
 y = []
-with open("gamma/youtube100_0.9.lamfinetune", 'r') as f:
+with open("train/youtube100_0.9.lamfinetune", 'r') as f:
     line = f.readline()
     while line:
         line = line.split(' ')
